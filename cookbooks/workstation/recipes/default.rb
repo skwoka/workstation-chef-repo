@@ -39,6 +39,12 @@ else
   end
 end
 
+wk['gem_packages'].each do |p,o|
+  gem_package p do
+    action :install
+  end
+end
+
 wk['dirs'].each do |dir|
 
   directory "#{ENV['HOME']}/#{dir}" do

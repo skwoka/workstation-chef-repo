@@ -50,6 +50,10 @@
     "tree": "",
     "wget": ""
   },
+  // Packages that are installed by gem
+  "gem_packages": {
+    "vagrant": ""
+  },
   "dirs": [
     // Array of directories that are created in $HOME. Create parent
     // directories of repositories or files for the user here, e.g.:
