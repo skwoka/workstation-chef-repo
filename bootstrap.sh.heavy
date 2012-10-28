@@ -1,0 +1,82 @@
+#!/bin/bash
+
+#
+# Bootstrap chef to a node and configure it.
+#
+
+function dependencies_check {
+  which curl > /dev/null
+  if [ $? -ne 0 ]
+  then
+    echo "curl is required. Please install curl and try again."
+    exit 1
+  fi
+}
+
+RUBY_VERSION="1.8.7"
+DRYRUN=false
+#DRYRUN=true
+
+function run {
+  if [[ $DRYRUN == true ]];
+  then
+    echo "***DRY RUN*** $@"
+  else
+    $@
+  fi
+}
+
+function install_ruby {
+	echo "Installing ruby..."
+	# https://rvm.io/rvm/install/
+  run curl -L https://get.rvm.io | bash -s stable --ruby
+  # make rvm available
+  run source ~/.bash_profile
+	run rvm install $RUBY_VERSION
+#	rvm use $RUBY_VERSION --default
+}
+
+# install required gems to bootstrap this node. additional gems will be installed through chef
+function install_gems {
+	for gem in "chef"
+	do
+		echo "Installing gem $gem"
+		run gem install $gem
+	done
+}
+
+function install_homebrew {
+	echo "Installing Homebrew..."
+	run ruby -e "$(curl -fsS http://gist.github.com/raw/323731/install_homebrew.rb)"
+}
+
+function install_dev_tools {
+	# depends on homebrew
+	for tool in "git" "wget"
+	do
+		echo "Installing $tool..."
+		run brew install $tool
+	done
+}
+
+function install_chef {
+	echo "Installing chef..."
+#	run "curl -L http://opscode.com/chef/install.sh | sudo bash"
+#  run wget http://opscode.com/chef/install.sh
+#  run sudo ./install.sh
+}
+
+function setup_chef_repo {
+	echo "Setting up workstation chef repo..."
+}
+
+dependencies_check
+install_ruby
+install_gems
+#install_homebrew
+#install_dev_tools
+# http://jtimberman.housepub.org/blog/2012/07/29/os-x-workstation-management-with-chef/
+#install_chef
+#setup_chef_repo
+
+chef-solo -c solo.rb -j linux.dna.json -l debug
