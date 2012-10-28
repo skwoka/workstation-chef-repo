@@ -1,0 +1,6 @@
+{
+  "run_list": [
+    "role[mac_os_x]",
+    "role[workstation]"
+  ]
+}
