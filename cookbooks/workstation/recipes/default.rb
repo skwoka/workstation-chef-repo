@@ -19,7 +19,8 @@
 
 begin
   wk = data_bag_item("apps","workstation")
-  u  = data_bag_item("users", Etc.getlogin)
+#  u  = data_bag_item("users", Etc.getlogin)
+  u  = nil
 rescue Net::HTTPServerException => e
   Chef::Application.fatal!("#{cookbook_name} could not load data bag; #{e}")
 end
@@ -53,7 +54,7 @@ wk['dirs'].each do |dir|
 
 end
 
-if u.has_key?("repos")
+if u && u.has_key?("repos")
   u["repos"].each do |target, repo|
 
     git "#{ENV['HOME']}/#{target}" do

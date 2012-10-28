@@ -8,14 +8,15 @@ run_list(
   "recipe[rbenv::user]",
   "recipe[users]",
   "recipe[workstation]",
-  "recipe[mac_os_x::settings]",
-  "recipe[mac_os_x::firewall]",
+  # TODO fix?
+  #"recipe[mac_os_x::settings]",
+  #"recipe[mac_os_x::firewall]",
   # Additional applications that have their own cookbooks.
-  "recipe[iterm2]",
-  "recipe[virtualbox]",
-  "recipe[ghmac]",
-  "recipe[1password]",
-  "recipe[xquartz]"
+  #"recipe[iterm2]",
+  #"recipe[virtualbox]",
+  #"recipe[ghmac]",
+  #"recipe[1password]",
+  #"recipe[xquartz]"
 )
 
 default_attributes(

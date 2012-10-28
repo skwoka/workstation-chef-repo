@@ -63,12 +63,12 @@ when "ubuntu","debian"
     code "apt-get update"
     action :nothing
   end
-
-  template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
-    source "oracle-virtualbox.list.erb"
-    mode 0644
-    notifies :run, resources(:bash => "add Oracle key"), :immediately
-  end
+  
+#  template "/etc/apt/sources.list.d/oracle-virtualbox.list" do
+#    source "oracle-virtualbox.list.erb"
+#    mode 0644
+#    notifies :run, resources(:bash => "add Oracle key"), :immediately
+#  end
 
   package "virtualbox-#{node['virtualbox']['version']}"
   package "dkms"
