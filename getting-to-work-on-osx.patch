@@ -1,0 +1,77 @@
+diff --git a/bootstrap.sh b/bootstrap.sh
+index 17b0202..8799223 100755
+--- a/bootstrap.sh
++++ b/bootstrap.sh
+@@ -30,6 +30,6 @@ function install_chef {
+ }
+ 
+ # http://jtimberman.housepub.org/blog/2012/07/29/os-x-workstation-management-with-chef/
+-install_chef
++#install_chef
+ 
+-chef-solo -c solo.rb -j linux.dna.json -l debug
++chef-solo -c solo.rb -j osx.dna.json -l debug
+diff --git a/cookbooks/workstation/recipes/default.rb b/cookbooks/workstation/recipes/default.rb
+index ffddc83..72b7e70 100644
+--- a/cookbooks/workstation/recipes/default.rb
++++ b/cookbooks/workstation/recipes/default.rb
+@@ -27,9 +27,11 @@ end
+ 
+ if use_brew?
+   wk['brew_packages'].each do |p,o|
++puts "package dump: " + p.inspect + ", option: " + o.inspect
+     package p do
+       action :install
+       options o if o && o.length > 0
++      provider Chef::Provider::Package::Homebrew
+     end
+   end
+ else
+diff --git a/data_bags/apps/workstation.json b/data_bags/apps/workstation.json
+index 0f96435..877a6cd 100644
+--- a/data_bags/apps/workstation.json
++++ b/data_bags/apps/workstation.json
+@@ -42,15 +42,16 @@
+   },
+   // Packages that are installed by Homebrew.
+   "brew_packages": {
+-    "ack": "",
+-    "coreutils": "",
+-    "md5sha1sum": "",
+-    "openvpn": "",
+-    "parallel": "",
+-    "pstree": "",
+-    "sloccount": "",
+-    "tree": "",
+-    "wget": ""
++    //"git": "",
++    //"ack": "",
++    "coreutils": ""
++    //"md5sha1sum": "",
++    //"openvpn": "",
++    //"parallel": "",
++    //"pstree": "",
++    //"sloccount": "",
++    //"tree": "",
++    //"wget": ""
+   },
+   // Packages that are installed by gem
+   "gem_packages": {
+diff --git a/roles/workstation.rb b/roles/workstation.rb
+index 36e9195..f414ff4 100644
+--- a/roles/workstation.rb
++++ b/roles/workstation.rb
+@@ -3,10 +3,10 @@ description "Mac OS X worksations"
+ 
+ run_list(
+   "recipe[build-essential]",
+-  "recipe[git]",
++  #"recipe[git]",
+   "recipe[ruby_build]",
+-  "recipe[rbenv::user]",
+-  "recipe[users]",
++  #"recipe[rbenv::user]",
++  #"recipe[users]",
+   "recipe[workstation]",
+   # TODO fix?
+   #"recipe[mac_os_x::settings]",
